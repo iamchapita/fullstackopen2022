@@ -1,19 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const Hello = () => {
+const Hello = (props) => {
 	return (
 		<div>
 			<p>Hola Mundo!</p>
+			<p>Soy {props.name} y tengo {props.age}</p>
 		</div>
 	);
 };
 
 const App = () => {
+
+    const name = 'Alejandro';
+    const age = '23';
+
 	return (
 		<div>
 			<h1>Bienvenidos</h1>
-            <Hello/>
+            <Hello name={name} age={age}/>
 		</div>
 	);
 };
