@@ -1,3 +1,10 @@
+// -*- coding: utf-8 -*- 
+/*
+@author: lamorales@unah.hn||iamchapita
+@date: 2022/05/30
+@version: 0.1.0
+*/
+
 // Constante a la que no se le p uede cambiar el valor
 const x = 1;
 // Variable normal
