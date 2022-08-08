@@ -35,5 +35,10 @@ setInterval(
 
 // Incluimos funciones para renderizado de la pagina de forma dinamica
 const App = ({ counter }) => {
-	return <div>{counter}</div>;
+	return (
+        <div>
+            <Hello name={'Alejandro'} age={24}/>
+            {counter}
+        </div>
+    );
 };
