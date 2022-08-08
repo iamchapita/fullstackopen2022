@@ -5,6 +5,7 @@
 @version: 0.1.0
 */
 
+//  Definicion de Objetos 
 const object1 = {
 	name: "Luis Morales",
 	age: 23,
@@ -29,7 +30,34 @@ const object3 = {
 console.log(object3.name.first);
 console.log(object3['name']['last']);
 
-
 object3.carreer = 'Systems Engineering';
 
 console.log(object3)
+
+
+// Definición de Objetos con Métodos
+
+const obj = {
+    name: 'Paisa',
+    age: 35,
+    education: 'Intermediate Studies',
+    greet: function() {
+        console.log('Hola, mi nombre es: ' + this.name)
+    }
+}
+
+obj.greet()
+
+
+// Agregando un metodo a un objeto sobre la marcha
+
+obj.nuevoMetodo = function() {
+    console.log('Nuevo Metodo')
+}
+
+
+obj.nuevoMetodo()
+
+// Llamando la funcion con un temporizador
+setTimeout(obj.nuevoMetodo, 10000)
+
