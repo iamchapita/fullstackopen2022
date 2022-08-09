@@ -1,49 +1,54 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-// Ya no se recibe el objeto props, si no dos variables con los datos
-const Hello = ({ name, age }) => {
-	// Esta es una función auxiliar del componente
-	const bornYear = () => {
-		const yearNow = new Date().getFullYear();
-		return yearNow - age;
-	};
+// Componente encargado solo de mostrar el contador
+const Display = ({ counter }) => {
+	return <div>{counter}</div>;
+};
 
-	return (
-		<div>
-			<p>
-				Hola {name} tienes {age} años
-			</p>
-			<p>Naciste en {bornYear()}</p>
-		</div>
-	);
+// Componenete encargado solo de monitorear el evento onClick y
+// establecer la funcion a ejecutar cuando ocurra el evento onClick
+const Button = ({handleClick, text}) => {
+
+    return (
+        <div>
+            <button onClick={handleClick}>{text}</button>
+        </div>
+    );
 };
 
 let counter = 1;
 
-// Incluimos funciones para renderizado de la pagina de forma dinamica
 const App = () => {
-	const [counter, setCounter] = useState(0);
 
-    // Controlador del event que aumenta el valor de la variable counter
+    // Se usa un hook (useState)
+    // La funcion setCounter (nombre no obligatorio) es utilizada para actualizar el estado del componente
+    const [counter, setCounter] = useState(0);
 
+    // Funciones controladores de evento (responsable de cambiar el estado del componente
+    // puesto que aqui se utiliza la funcion setCounter propia del hook useState)
     const increaseByOne = () => {
         setCounter(counter + 1);
     }
+    
+    const decreaseByOne = () => {
+        setCounter(counter - 1);
+    }
 
-    // Controlador que reinicia el valor de la variable counter
     const setToZero = () => {
         setCounter(0);
     }
 
 	return (
 		<div>
-			<Hello name={"Alejandro"} age={24} />
-            {counter}
-            <button onClick={increaseByOne}>Aumentar en 1</button>
-            <button onClick={setToZero}>Reiniciar Contador</button>
+            <Display counter={counter}/>
+            <Button handleClick={increaseByOne} text={'Add 1'}/> 
+            <Button handleClick={decreaseByOne} text={'Take 1'}/> 
+            <Button handleClick={setToZero} text={'Set to 0'}/> 
 		</div>
 	);
 };
 
 ReactDOM.render(<App counter={counter} />, document.getElementById("root"));
+
+
