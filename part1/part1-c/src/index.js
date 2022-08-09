@@ -25,16 +25,23 @@ let counter = 1;
 const App = () => {
 	const [counter, setCounter] = useState(0);
 
-	setTimeout(() => {
-		setCounter(counter + 1);
-	}, 1000);
+    // Controlador del event que aumenta el valor de la variable counter
 
-    console.log(counter);
+    const increaseByOne = () => {
+        setCounter(counter + 1);
+    }
+
+    // Controlador que reinicia el valor de la variable counter
+    const setToZero = () => {
+        setCounter(0);
+    }
 
 	return (
 		<div>
 			<Hello name={"Alejandro"} age={24} />
-			{counter}
+            {counter}
+            <button onClick={increaseByOne}>Aumentar en 1</button>
+            <button onClick={setToZero}>Reiniciar Contador</button>
 		</div>
 	);
 };
