@@ -61,7 +61,7 @@ const App = () => {
             <div>
                 <Display value={value} />
                 <Button handleClick={() => setToValue(0)} text={"Reset"} />
-                <Button handleClick={() => setToValue(1000)} text={"Thousand"} />
+                <Button handleClick={() => setToValue(value + 1000)} text={"Thousand"} />
                 <Button handleClick={() => setToValue(value + 1)} text={"Increment +1"}/>
             </div>
             <div>
