@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+/* 
+React utiliza los atributos key de los objetos en una matriz para determinar cómo actualizar la vista generada por un componente cuando el componente se vuelve a renderizar.  
+*/
+
 const notes = [
 	{
 		id: 1,
@@ -22,16 +26,20 @@ const notes = [
 	},
 ];
 
-const App = (props) => {
-	const { notes } = props;
+const Note = ({ note }) => {
+	return (
+		<div>
+			<li> {note.content} </li>
+		</div>
+	);
+};
 
+const App = ({ notes }) => {
 	return (
 		<div>
 			<h1>Notes</h1>
 			<ul>
-				<li>{notes[0].content}</li>
-				<li>{notes[1].content}</li>
-				<li>{notes[2].content}</li>
+                {notes.map(note => (<Note key={note.id} note={note}/>))}
 			</ul>
 		</div>
 	);
