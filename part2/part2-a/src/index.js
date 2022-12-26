@@ -1,8 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Note from "./components/Note";
+import App from "./App";
 
 /* 
 React utiliza los atributos key de los objetos en una matriz para determinar cómo actualizar la vista generada por un componente cuando el componente se vuelve a renderizar.  
+*/
+
+/* Tenga en cuenta que al importar nuestros propios componentes, se debe dar su ubicación en relación con el archivo de importación: 
+
+El punto - . - al principio se refiere al directorio actual, por lo que la ubicación del módulo es un archivo llamado Note.js en el subdirectorio components del directorio actual. La extensión del nombre de archivo - .js - se puede omitir.
 */
 
 const notes = [
@@ -26,23 +33,4 @@ const notes = [
 	},
 ];
 
-const Note = ({ note }) => {
-	return (
-		<div>
-			<li> {note.content} </li>
-		</div>
-	);
-};
-
-const App = ({ notes }) => {
-	return (
-		<div>
-			<h1>Notes</h1>
-			<ul>
-                {notes.map(note => (<Note key={note.id} note={note}/>))}
-			</ul>
-		</div>
-	);
-};
-
-ReactDOM.render(<App notes={notes} />, document.getElementById("root"));
+ReactDOM.render(<App notes={notes}/>, document.getElementById("root"));
