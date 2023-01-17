@@ -3,16 +3,18 @@ import Display from "./components/Display";
 import axios from "axios";
 
 const App = () => {
-	const [countries, setCountries] = useState([]);
-	const [subsetCountries, setSubsetCountries] = useState([]);
 
+    const [countries, setCountries] = useState([]);
+	const [subsetCountries, setSubsetCountries] = useState([]);
+    
 	const hook = () => {
-		axios.get("https://restcountries.com/v3.1/all").then((response) => {
-			setCountries(response.data);
+        axios.get("https://restcountries.com/v3.1/all").then((response) => {
+            setCountries(response.data);
+            setSubsetCountries(response.data);
 		});
 	};
-
-	useEffect(hook, []);
+    
+    useEffect(hook, []);
 
 	const searchCountries = (event) => {
 		setSubsetCountries(

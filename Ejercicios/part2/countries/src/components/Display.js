@@ -6,9 +6,15 @@
 */
 
 import React from "react";
+import Detail from "./Detail";
 
 const Display = ({ countries }) => {
-	if (countries.length > 10 || countries.length == 0) {
+
+    if(countries.length == 0){
+        return <div>Not matches found</div>
+    }
+
+	if (countries.length > 10) {
 		return <div>Too many matches, specify another name to filter.</div>;
 	}
 	if (countries.length > 1 && countries.length < 11) {
@@ -20,23 +26,8 @@ const Display = ({ countries }) => {
 			</ul>
 		);
 	}
-	if (countries.length == 1) {
-		return (
-			<div>
-				{countries.map((country, j) => (
-					<div>
-						<h1>{country.name.common}</h1>
-						<p>Capital: {country.capital[0]}</p>
-						<p>Population: {country.population}</p>
-						<h2>Languages</h2>
-						<ul>
-							<li key={j}>{Object.values(country.languages)}</li>
-						</ul>
-						<img src={country.flags.png}></img>
-					</div>
-				))}
-			</div>
-		);
+	if (countries.length === 1) {
+		return <Detail countries={countries} />;
 	}
 };
 
