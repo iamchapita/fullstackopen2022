@@ -7,9 +7,8 @@
 
 import React from "react";
 
-const Detail = ({ countries }) => {
-	let country = countries[0];
-	let languages = Object.values(countries[0].languages);
+const Detail = ({ country }) => {
+	let languages = Object.values(country.languages);
 	return (
 		<div>
 			<div>
