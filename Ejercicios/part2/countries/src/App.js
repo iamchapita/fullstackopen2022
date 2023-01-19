@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from "react";
-import Display from "./components/Display";
+import Search from "./components/Search";
+import Result from "./components/Result";
 import axios from "axios";
 
 const App = () => {
+	const [countries, setCountries] = useState([]);
+	const [countriesToShow, setCountriesToShow] = useState({});
+	const [filteredCountries, setFilteredCountries] = useState([]);
 
-    const [countries, setCountries] = useState([]);
-	const [subsetCountries, setSubsetCountries] = useState([]);
-    
-	const hook = () => {
-        axios.get("https://restcountries.com/v3.1/all").then((response) => {
-            setCountries(response.data);
-            setSubsetCountries(response.data);
+	useEffect(() => {
+		axios.get("https://restcountries.com/v3.1/all").then((response) => {
+			setCountries(response.data);
 		});
-	};
-    
-    useEffect(hook, []);
+	}, []);
 
-	const searchCountries = (event) => {
-		setSubsetCountries(
-			countries.filter((country) =>
-				country.name.common.includes(event.target.value)
-			)
-		);
-	};
+	useEffect(() => {
+		let changeShow = {};
+		countries.map((country) => (changeShow[country.name.common] = false));
+		setCountriesToShow(changeShow);
+	}, []);
 
 	return (
 		<div>
 			<h1>Countries</h1>
-			Search: <input type="text" onChange={searchCountries}></input>
-			<Display countries={subsetCountries} />
+			<Search
+				countries={countries}
+                countriesToShow={countriesToShow}
+                setCountriesToShow={setCountriesToShow}
+				filteredCountries={filteredCountries}
+				setFilteredCountries={setFilteredCountries}
+			/>
 		</div>
 	);
 };
