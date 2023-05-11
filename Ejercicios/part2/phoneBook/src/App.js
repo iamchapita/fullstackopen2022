@@ -9,34 +9,63 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState("");
 	const [filteredPersons, setFilteredPersons] = useState(persons);
 
-    // Estableciendo el fetch de la data de la "Base de Datos"
+	// Estableciendo el fetch de la data de la "Base de Datos"
 	const hook = () => {
 		axios.get("http://localhost:3001/persons").then((response) => {
 			setPersons(response.data);
-            setFilteredPersons(response.data);
+			setFilteredPersons(response.data);
 		});
 	};
 
-    // Usando un EffectHook
+	// Usando un EffectHook
 	useEffect(hook, []);
-    
+
 	const addPerson = (event) => {
 		// Evita que el formulario se envie
 		event.preventDefault();
 		// Si el valor del input ya existe en el arrelgo persons...
 		if (
-			persons.filter((person) => person.name === newName)[0] !== undefined
+			persons.filter((person) => person.name === newName)[0] !== undefined &&
+			persons.filter((person) => person.number === newNumber)[0] === undefined
 		) {
-			window.alert(`${newName} is already added to phonebook`);
+			let id = 0;
+			let response = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
+
+			if (response === true) {
+
+				let modifiedPersons = persons.filter((person) => {
+					if (person.name === newName) {
+						person.number = newNumber;
+						id = person.id;
+					}
+				});
+
+				let updatedPerson = {
+					name: newName,
+					number: newNumber,
+					id: id,
+				};
+
+				axios.put(`http://localhost:3001/persons/${id}`, updatedPerson).then((response) => {
+					hook();
+				});
+
+			}
+
 		} else {
 			let newPerson = {
-				id: persons.length + 1,
 				name: newName,
 				number: newNumber,
+				id: persons.length + 1,
 			};
 
 			setPersons(persons.concat(newPerson));
 			setFilteredPersons(filteredPersons.concat(newPerson));
+
+			axios.post("http://localhost:3001/persons", newPerson).then((response) => {
+
+			});
+
 			setNewName("");
 			setNewNumber("");
 		}
@@ -58,6 +87,20 @@ const App = () => {
 					.includes(event.target.value.toLowerCase())
 			)
 		);
+	};
+
+	const handlePersonDelete = (id) => {
+
+		let response = window.confirm('Delete this person?');
+
+		if (response === true) {
+			axios.delete(`http://localhost:3001/persons/${id}`).then((response) => {
+				let personsFiltered = persons.filter((person) => person.id !== id);
+				setPersons(personsFiltered);
+				setFilteredPersons(personsFiltered);
+			});
+		}
+
 	};
 
 	return (
@@ -82,7 +125,7 @@ const App = () => {
 				<button type="submit">Add</button>
 			</form>
 			<h2>Numbers</h2>
-			<Display persons={filteredPersons} />
+			<Display persons={filteredPersons} handleDeleteButtonAction={handlePersonDelete} />
 		</div>
 	);
 };

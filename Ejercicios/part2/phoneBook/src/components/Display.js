@@ -6,13 +6,17 @@
 */
 
 import React from "react";
+import Button from "./Button";
 
-const Display = ({ persons }) => {
+const Display = ({ persons, handleDeleteButtonAction }) => {
 	return (
 		<div>
 			<ul>
-				{persons.map((person) => (
-					<li key={person.id}>{person.name} {person.number}</li>
+				{persons.map((person, index) => (
+					<div key={index}>
+						<li>{person.name} {person.number}</li>
+						<Button handleAction={() => { handleDeleteButtonAction(person.id) }} />
+					</div>
 				))}
 			</ul>
 		</div>
