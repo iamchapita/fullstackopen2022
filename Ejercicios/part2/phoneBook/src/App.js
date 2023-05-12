@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Display from "./components/Display";
 import Input from "./components/Input";
+import Notification from "./components/Notification";
 import axios from "axios";
 
 const App = () => {
@@ -8,6 +9,8 @@ const App = () => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
 	const [filteredPersons, setFilteredPersons] = useState(persons);
+	const [notificationMessage, setNotificationMessage] = useState(null);
+	const [notificationType, setNotificationType] = useState('');
 
 	// Estableciendo el fetch de la data de la "Base de Datos"
 	const hook = () => {
@@ -15,6 +18,16 @@ const App = () => {
 			setPersons(response.data);
 			setFilteredPersons(response.data);
 		});
+	};
+
+	const displayNotification = (message, type, timeOut) => {
+		setNotificationType(type)
+		setNotificationMessage(message);
+
+		setTimeout(() => {
+			setNotificationMessage(null);
+			setNotificationType('');
+		}, timeOut);
 	};
 
 	// Usando un EffectHook
@@ -50,13 +63,18 @@ const App = () => {
 					hook();
 				});
 
+				displayNotification('The phonenumber has been updated.', 'success', 5000);
+				setNewName("");
+				setNewNumber("");
+
 			}
 
 		} else {
+
 			let newPerson = {
 				name: newName,
 				number: newNumber,
-				id: persons.length + 1,
+				id: persons[persons.length -1].id + 1,
 			};
 
 			setPersons(persons.concat(newPerson));
@@ -66,6 +84,7 @@ const App = () => {
 
 			});
 
+			displayNotification('New Number has been added.', 'success', 5000);
 			setNewName("");
 			setNewNumber("");
 		}
@@ -96,6 +115,7 @@ const App = () => {
 		if (response === true) {
 			axios.delete(`http://localhost:3001/persons/${id}`).then((response) => {
 				let personsFiltered = persons.filter((person) => person.id !== id);
+				displayNotification('A person has been deleted.', 'success', 5000);
 				setPersons(personsFiltered);
 				setFilteredPersons(personsFiltered);
 			});
@@ -106,6 +126,7 @@ const App = () => {
 	return (
 		<div>
 			<h1>NumberBook</h1>
+			<Notification message={notificationMessage} type={notificationType} />
 			<Input
 				inputName={"Search for a phone"}
 				inputEventHandler={handleSearchInputChanges}
