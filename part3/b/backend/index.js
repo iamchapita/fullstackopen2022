@@ -5,8 +5,10 @@
 @version: 0.0.1
 */
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 let notes = [
@@ -80,7 +82,7 @@ app.delete("/api/notes/:id", (request, response) => {
 	return response.status(200).json(notes);
 });
 
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
